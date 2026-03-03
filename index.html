@@ -1,0 +1,129 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>PO-Check | Necesidad Docente y Plantilla Óptima</title>
+  <link rel="stylesheet" href="styles.css" />
+
+  <!-- SheetJS (XLSX) para leer Excel en el navegador -->
+  <script defer src="https://cdn.jsdelivr.net/npm/xlsx@0.19.3/dist/xlsx.full.min.js"></script>
+
+  <!-- Config -->
+  <script defer src="config.js"></script>
+  <script defer src="app.js"></script>
+</head>
+<body>
+  <header class="header">
+    <div class="brand">
+      <div class="logo">PO</div>
+      <div>
+        <h1>PO-Check</h1>
+        <p>Revisión de Distributivo Docente + cálculo base para Necesidad Docente / Plantilla Óptima</p>
+      </div>
+    </div>
+
+    <div class="pill">
+      <span class="dot"></span>
+      <span id="envLabel">Modo: Local (GitHub Pages)</span>
+    </div>
+  </header>
+
+  <main class="grid">
+    <section class="card">
+      <h2>1) Subir archivos Excel</h2>
+      <p class="muted">Acepta <b>.xlsx</b> y <b>.xlsm</b>. Puedes cargar varios (por ejemplo: Matriz DTD + Necesidades).</p>
+
+      <div class="dropzone" id="dropzone">
+        <input type="file" id="fileInput" multiple accept=".xlsx,.xlsm" />
+        <div class="dzText">
+          <div class="dzTitle">Arrastra y suelta aquí</div>
+          <div class="dzSubtitle">o haz clic para seleccionar archivos</div>
+        </div>
+      </div>
+
+      <div class="row">
+        <button class="btn" id="btnValidate" disabled>Validar estructura</button>
+        <button class="btn secondary" id="btnClear" disabled>Limpiar</button>
+      </div>
+
+      <div class="small muted" id="fileHint"></div>
+
+      <div class="list" id="filesList"></div>
+    </section>
+
+    <section class="card">
+      <h2>2) Resultado</h2>
+      <p class="muted">El sistema revisa: hojas obligatorias, presencia de <b>NOMINE</b>, celdas vacías clave (configurable) y genera un log.</p>
+
+      <div class="summary" id="summary">
+        <div class="kpi">
+          <div class="kpiLabel">Archivos</div>
+          <div class="kpiValue" id="kpiFiles">0</div>
+        </div>
+        <div class="kpi">
+          <div class="kpiLabel">Críticos</div>
+          <div class="kpiValue bad" id="kpiCritical">0</div>
+        </div>
+        <div class="kpi">
+          <div class="kpiLabel">Advertencias</div>
+          <div class="kpiValue warn" id="kpiWarn">0</div>
+        </div>
+        <div class="kpi">
+          <div class="kpiLabel">Info</div>
+          <div class="kpiValue ok" id="kpiInfo">0</div>
+        </div>
+      </div>
+
+      <div class="row">
+        <button class="btn" id="btnDownloadJson" disabled>Descargar log (JSON)</button>
+        <button class="btn secondary" id="btnDownloadTxt" disabled>Descargar log (TXT)</button>
+      </div>
+
+      <hr class="sep" />
+
+      <div class="filters">
+        <label class="chip"><input type="checkbox" id="fCritical" checked /> Críticos</label>
+        <label class="chip"><input type="checkbox" id="fWarn" checked /> Advertencias</label>
+        <label class="chip"><input type="checkbox" id="fInfo" checked /> Info</label>
+        <input class="search" id="searchBox" placeholder="Buscar en observaciones..." />
+      </div>
+
+      <div class="tableWrap">
+        <table class="table">
+          <thead>
+            <tr>
+              <th>Severidad</th>
+              <th>Archivo</th>
+              <th>Hoja</th>
+              <th>Detalle</th>
+            </tr>
+          </thead>
+          <tbody id="obsTable"></tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>3) Flujo recomendado (capacitación)</h2>
+      <ol class="steps">
+        <li><b>Descarga</b> el archivo desde el enlace institucional.</li>
+        <li><b>Desbloquea</b> en Windows: Propiedades → “Desbloquear”.</li>
+        <li><b>Habilita contenido</b> al abrir el Excel (macros/listas).</li>
+        <li>Empieza llenando la hoja <b>NOMINE</b>.</li>
+        <li>No edites celdas de <b>fórmula</b> (en la matriz suelen venir en naranja).</li>
+        <li>Sube el archivo aquí y ejecuta <b>Validar estructura</b>.</li>
+      </ol>
+
+      <div class="note">
+        Este MVP valida estructura y prepara el terreno para el cálculo de Necesidad Docente / Plantilla Óptima.
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <span>PO-Check · GitHub Pages</span>
+    <span class="muted">Versión 0.1 (estructura + validación base)</span>
+  </footer>
+</body>
+</html>
