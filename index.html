@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>PO-App v4 | Plantilla Óptima</title>
+    <link rel="stylesheet" href="styles.css">
+    <script defer src="https://cdn.jsdelivr.net/npm/xlsx@0.19.3/dist/xlsx.full.min.js"></script>
+    <script defer src="config.js"></script>
+    <script defer src="app.js"></script>
+</head>
+<body>
+    <h1>Aplicativo Plantilla Óptima / Necesidad Docente</h1>
+    <p>Validación normativa 00086 → 00065 con equivalencias oficiales</p>
+
+    <input type="file" id="excelInput" accept=".xlsx,.xlsm">
+    <button onclick="procesarArchivo()">Procesar Archivo</button>
+
+    <h2>Resultados</h2>
+    <pre id="output"></pre>
+</body>
+</html>
