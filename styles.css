@@ -1,0 +1,128 @@
+/* Geoportal AMIE - estilo ultralight */
+:root{
+  --accent:#1DB954;
+  --bg:#ffffff;
+  --text:#111111;
+  --muted:#6b7280;
+  --border:#e5e7eb;
+}
+*{box-sizing:border-box}
+html,body{height:100%}
+body{
+  margin:0;
+  font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
+  color:var(--text);
+  background:var(--bg);
+}
+.topbar{
+  display:flex;
+  gap:16px;
+  align-items:flex-start;
+  justify-content:space-between;
+  padding:14px 16px;
+  border-bottom:1px solid var(--border);
+}
+.brand__title{font-weight:700; font-size:18px}
+.brand__subtitle{color:var(--muted); font-size:12px; margin-top:2px}
+.kpis{display:flex; gap:10px; flex-wrap:wrap}
+.kpi{
+  border:1px solid var(--border);
+  border-radius:12px;
+  padding:10px 12px;
+  min-width:110px;
+  box-shadow:0 1px 0 rgba(0,0,0,.02);
+}
+.kpi__label{font-size:11px; color:var(--muted)}
+.kpi__value{font-size:18px; font-weight:700}
+
+.layout{
+  display:grid;
+  grid-template-columns: 520px 1fr;
+  height: calc(100vh - 62px);
+}
+.panel{
+  border-right:1px solid var(--border);
+  overflow:auto;
+}
+.panel__section{padding:14px 16px; border-bottom:1px solid var(--border)}
+.row{display:flex; flex-direction:column; gap:6px; margin-bottom:12px}
+.row--grid{
+  display:grid;
+  grid-template-columns:1fr 1fr 1fr;
+  gap:10px;
+}
+.lbl{font-size:12px; color:var(--muted)}
+.inp{
+  width:100%;
+  padding:10px 10px;
+  border:1px solid var(--border);
+  border-radius:12px;
+  outline:none;
+}
+.inp:focus{border-color:var(--accent); box-shadow:0 0 0 3px rgba(29,185,84,.15)}
+.btns{
+  display:flex;
+  gap:8px;
+  align-items:flex-end;
+  justify-content:flex-end;
+}
+.btn{
+  padding:10px 12px;
+  border-radius:12px;
+  border:1px solid var(--accent);
+  background:var(--accent);
+  color:white;
+  cursor:pointer;
+  font-weight:600;
+}
+.btn--ghost{
+  background:white;
+  color:var(--text);
+  border:1px solid var(--border);
+}
+.btn:active{transform:translateY(1px)}
+.panel__section--table{padding-top:10px}
+.tablewrap{overflow:auto; max-height: calc(100vh - 290px); border:1px solid var(--border); border-radius:12px}
+.tbl{border-collapse:collapse; width:100%}
+.tbl thead th{
+  position:sticky; top:0;
+  background:#fafafa;
+  border-bottom:1px solid var(--border);
+  font-size:12px;
+  text-align:left;
+  padding:10px;
+}
+.tbl td{
+  border-bottom:1px solid var(--border);
+  font-size:12px;
+  padding:9px 10px;
+  vertical-align:top;
+}
+.tbl tr:hover{background:rgba(29,185,84,.06); cursor:pointer}
+.tbl tr.selected{background:rgba(29,185,84,.12)}
+.hint{color:var(--muted); font-size:12px; margin-top:8px}
+
+.mapwrap{position:relative}
+#map{height:100%; width:100%}
+.footerbar{
+  position:absolute; left:12px; bottom:12px; right:12px;
+  display:flex; gap:10px; justify-content:space-between; align-items:center;
+  pointer-events:none;
+}
+.status, .credits{
+  pointer-events:none;
+  background:rgba(255,255,255,.92);
+  border:1px solid var(--border);
+  border-radius:12px;
+  padding:8px 10px;
+  font-size:12px;
+  box-shadow:0 4px 12px rgba(0,0,0,.06);
+}
+@media (max-width: 1100px){
+  .layout{grid-template-columns:1fr}
+  .panel{height:50vh; border-right:none; border-bottom:1px solid var(--border)}
+  .mapwrap{height:50vh}
+  .row--grid{grid-template-columns:1fr}
+  .btns{justify-content:flex-start}
+  .tablewrap{max-height: 38vh}
+}

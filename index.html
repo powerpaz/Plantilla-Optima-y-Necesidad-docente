@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Geoportal AMIE</title>
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="preconnect" href="https://unpkg.com" />
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">
+      <div class="brand__title">Geoportal AMIE</div>
+      <div class="brand__subtitle">Búsqueda y visualización de instituciones educativas</div>
+    </div>
+    <div class="kpis">
+      <div class="kpi"><div class="kpi__label">Total</div><div id="kpiTotal" class="kpi__value">—</div></div>
+      <div class="kpi"><div class="kpi__label">Matriz</div><div id="kpiMatriz" class="kpi__value">—</div></div>
+      <div class="kpi"><div class="kpi__label">Establecimientos</div><div id="kpiEstablec" class="kpi__value">—</div></div>
+      <div class="kpi"><div class="kpi__label">Sostenimientos</div><div id="kpiSosten" class="kpi__value">—</div></div>
+    </div>
+  </header>
+
+  <main class="layout">
+    <section class="panel">
+      <div class="panel__section">
+        <div class="row">
+          <label class="lbl">Buscar (AMIE / nombre)</label>
+          <input id="searchBox" class="inp" placeholder="Ej: 17H0039 o Unidad Educativa..." />
+        </div>
+        <div class="row row--grid">
+          <div>
+            <label class="lbl">Provincia</label>
+            <select id="provSelect" class="inp"></select>
+          </div>
+          <div>
+            <label class="lbl">Cantón</label>
+            <select id="cantonSelect" class="inp"></select>
+          </div>
+          <div>
+            <label class="lbl">Parroquia</label>
+            <select id="parrSelect" class="inp"></select>
+          </div>
+        </div>
+
+        <div class="row row--grid">
+          <div>
+            <label class="lbl">Tipo</label>
+            <select id="tipoSelect" class="inp"></select>
+          </div>
+          <div>
+            <label class="lbl">Sostenimiento</label>
+            <select id="sostSelect" class="inp"></select>
+          </div>
+          <div class="btns">
+            <button id="btnClear" class="btn">Limpiar selección (0)</button>
+            <button id="btnResetFilters" class="btn btn--ghost">Reiniciar filtros</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="panel__section panel__section--table">
+        <div class="tablewrap">
+          <table id="tbl" class="tbl">
+            <thead>
+              <tr>
+                <th>AMIE</th>
+                <th>Nombre</th>
+                <th>Provincia</th>
+                <th>Cantón</th>
+                <th>Parroquia</th>
+                <th>Tipo</th>
+                <th>Sosten.</th>
+              </tr>
+            </thead>
+            <tbody id="tbody"></tbody>
+          </table>
+        </div>
+        <div class="hint">Tip: clic en una fila para seleccionar y enfocar en el mapa.</div>
+      </div>
+    </section>
+
+    <section class="mapwrap">
+      <div id="map"></div>
+      <div class="footerbar">
+        <div id="status" class="status">Cargando…</div>
+        <div class="credits">Datos: CSV local (por defecto) o Supabase si configuras <code>config.js</code></div>
+      </div>
+    </section>
+  </main>
+
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script src="https://unpkg.com/papaparse@5.4.1/papaparse.min.js"></script>
+
+  <!-- IMPORTANTE: config.js debe cargarse ANTES que app.js -->
+  <script src="config.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
