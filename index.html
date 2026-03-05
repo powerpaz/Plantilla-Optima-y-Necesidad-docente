@@ -1,0 +1,177 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>PO-App v14 | Plantilla Óptima / Necesidad Docente</title>
+  <!-- Intento de reducir cache agresivo en algunos entornos -->
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+  <meta http-equiv="Pragma" content="no-cache" />
+  <meta http-equiv="Expires" content="0" />
+  <link rel="stylesheet" href="styles.css" />
+
+  <!--
+    Modo institucional (SIN CDN):
+    - Librerías incluidas localmente en /vendor para evitar bloqueos de red.
+    - Mantén la carpeta vendor al publicar en GitHub Pages / intranet.
+  -->
+  <!-- Cache-buster para evitar que GitHub Pages sirva la versión anterior -->
+  <script defer src="vendor/xlsx.full.min.js?v=12.0.0"></script>
+  <script defer src="vendor/jspdf.umd.min.js?v=12.0.0"></script>
+  <script defer src="vendor/jspdf.plugin.autotable.min.js?v=12.0.0"></script>
+
+  <script defer src="config.js?v=12.0.0"></script>
+  <script defer src="app.js?v=14.0.0"></script>
+</head>
+<body>
+  <header class="header">
+    <div class="brand">
+      <div class="logo">PO</div>
+      <div>
+        <h1>PO-App v14</h1>
+        <p>Plantilla Óptima / Necesidad Docente · Validación automática + reporte (institucional, sin CDN + anti-cache)</p>
+      </div>
+    </div>
+    <div class="pill">
+      <span class="dot"></span>
+      <span id="envLabel">Modo: Institucional (sin CDN) · Build v12.0.0</span>
+    </div>
+  </header>
+
+  <main class="grid">
+    <section class="card">
+      <h2>1) Cargar plantilla PO (.xlsm/.xlsx) y validar</h2>
+      <p class="muted">Sube la plantilla PO. El sistema valida Nómina, Par_PO, DIS_TRA y Param, y genera un reporte de inconsistencias. Si todo está correcto, el estado queda como <b>VALIDADO</b>.</p>
+
+      <div class="row" id="uploadSection">
+        <input class="file" type="file" id="fileInput" accept=".xlsx,.xlsm">
+        <button class="btn" id="btnValidate">Validar y generar reporte</button>
+        <button class="btn ghost" id="btnDiag" type="button">Diagnóstico</button>
+        <button class="btn ghost" id="btnDownloadPdf" disabled>Descargar reporte (PDF)</button>
+        <button class="btn ghost" id="btnDownloadJson" disabled>Descargar reporte (JSON)</button>
+      </div>
+
+      <div class="small muted" id="excelHint">Sube un archivo para habilitar la validación.</div>
+      <div id="libStatus" class="note" style="display:none"></div>
+
+      <div id="validationSummary" class="card inner"></div>
+      <div id="issuesTable" class="card inner"></div>
+
+      <h3>Flujo recomendado (según hoja Pasos)</h3>
+      <p class="muted">Úsalo como checklist. Si algo falla, casi siempre está en estos pasos (o en que se tocó una celda con fórmula).</p>
+      <div id="workflowSteps" class="card inner"></div>
+
+      <hr class="sep" />
+
+      <h2>2) Cálculo Plantilla Óptima (fórmula general)</h2>
+      <p class="muted">
+        <b>Inicial (3–4 años): 1 docente por paralelo</b> ·
+        <b>EGB/BGU: (Σ paralelos × carga horaria) / 25 períodos pedagógicos</b>
+      </p>
+
+      <div class="formGrid">
+        <div class="field">
+          <label>Nivel</label>
+          <select id="nivel">
+            <option value="INICIAL">Educación Inicial (3 y 4 años)</option>
+            <option value="EGB_BGU">EGB / Bachillerato General</option>
+          </select>
+        </div>
+
+        <div class="field" id="wrapParalelos">
+          <label>Número de paralelos</label>
+          <input id="paralelos" type="number" min="0" step="1" value="0" />
+          <div class="help">Suma de paralelos del nivel seleccionado.</div>
+        </div>
+
+        <div class="field" id="wrapCarga">
+          <label>Carga horaria semanal (períodos pedagógicos)</label>
+          <input id="carga" type="number" min="0" step="0.25" value="0" />
+          <div class="help">Solo aplica a EGB/BGU.</div>
+        </div>
+
+        <div class="field">
+          <label>Períodos pedagógicos semanales (LOEI reformada)</label>
+          <input id="periodos" type="number" min="1" step="1" value="25" />
+          <div class="help">Por defecto 25.</div>
+        </div>
+      </div>
+
+      <div class="row">
+        <button class="btn" id="btnCalcular">Calcular</button>
+        <button class="btn secondary" id="btnLimpiar">Limpiar</button>
+      </div>
+
+      <div class="resultBox" id="resultado">
+        <div class="kpiRow">
+          <div class="kpi">
+            <div class="kpiLabel">Docentes requeridos</div>
+            <div class="kpiValue" id="kpiDocentes">0</div>
+          </div>
+          <div class="kpi">
+            <div class="kpiLabel">Fórmula aplicada</div>
+            <div class="kpiValue mono" id="kpiFormula">-</div>
+          </div>
+        </div>
+        <div class="small muted" id="detalleCalc"></div>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>3) LOEI — Jornada docente (comparativo)</h2>
+      <p class="muted">Comparativo de períodos pedagógicos: <b>LOEI anterior (30)</b> vs <b>LOEI reformada (25)</b>, manteniendo <b>40 horas reloj semanales</b>.</p>
+
+      <div class="tableWrap">
+        <table class="table">
+          <thead>
+            <tr>
+              <th>Marco</th>
+              <th>Períodos pedagógicos/semana</th>
+              <th>Horas reloj pedagógicas/semana</th>
+              <th>Horas reloj pedagógicas/día</th>
+              <th>Acompañamiento (períodos)</th>
+              <th>Horas reloj acompañamiento/semana</th>
+              <th>Horas reloj acompañamiento/día</th>
+              <th>Actividades IE (hrs reloj/semana)</th>
+              <th>Total hrs reloj/semana</th>
+            </tr>
+          </thead>
+          <tbody id="loeiTable"></tbody>
+        </table>
+      </div>
+
+      <hr class="sep" />
+
+      <h2>4) Validación normativa figuras profesionales</h2>
+      <p class="muted">
+        Reglas activas:
+        <br>• Existe en 00086 pero NO en 00065 → <b>Crítico</b>
+        <br>• Cambió denominación → <b>Equivalencia</b>
+        <br>• Suprimida / sin equivalencia → <b>Crítico</b>
+      </p>
+
+      <div class="formGrid">
+        <div class="field">
+          <label>Figura profesional declarada (texto)</label>
+          <input id="figura" placeholder="Ej.: ADMINISTRACION DE SISTEMAS" />
+          <div class="help">Pega tal como está en tu matriz.</div>
+        </div>
+      </div>
+      <div class="row">
+        <button class="btn" id="btnValidarFigura">Validar figura</button>
+      </div>
+
+      <div class="log" id="log"></div>
+
+      <div class="note">
+        Tip: Si el catálogo/equivalencias oficiales vienen en Excel/CSV, se pueden cargar en <code>/data</code> para reemplazar listas.
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <span>PO-App v14 · Modo institucional (sin CDN)</span>
+    <span class="muted">Validador automático + reportes (PDF/JSON)</span>
+  </footer>
+</body>
+</html>

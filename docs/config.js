@@ -1,0 +1,1 @@
+window.APP_CONFIG={version:'16.0.0'}
