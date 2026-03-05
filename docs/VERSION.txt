@@ -1,1 +1,0 @@
-PO-App v13.0.0 — offline vendor + robust validate handler + cache-buster
