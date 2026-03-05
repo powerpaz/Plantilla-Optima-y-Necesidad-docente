@@ -1,0 +1,16 @@
+<!doctype html>
+<html lang="es"><head>
+<meta charset="utf-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>PO-App Healthcheck</title>
+<script src="vendor/xlsx.full.min.js?v=19.0.1"></script>
+</head><body style="font-family:Arial,Helvetica,sans-serif;padding:24px">
+<h2>Healthcheck — XLSX</h2>
+<pre id="out"></pre>
+<script>
+const ok = (typeof XLSX !== "undefined");
+document.getElementById("out").textContent =
+  (ok ? "OK ✅ XLSX cargado" : "ERROR ❌ XLSX NO cargado") + "\n" +
+  "URL: " + location.href + "\n" +
+  "typeof XLSX: " + (typeof XLSX);
+</script>
+</body></html>
