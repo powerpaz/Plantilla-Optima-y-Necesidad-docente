@@ -1,1 +1,0 @@
-PO-App v14.0.0 — no memo, robust validation, always-clickable validate button, cache-buster
