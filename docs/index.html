@@ -1,0 +1,122 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>PO-App v19 | Validador Plantilla Óptima MinEduc Ecuador</title>
+  
+  <!-- Anti-cache headers -->
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+  <meta http-equiv="Pragma" content="no-cache" />
+  <meta http-equiv="Expires" content="0" />
+  
+  <link rel="stylesheet" href="styles.css?v=19.0.4" />
+
+  <!-- Librerías locales (modo institucional sin CDN) -->
+  <script defer src="vendor/xlsx.full.min.js?v=19.0.1"></script>
+  <script defer src="vendor/jspdf.umd.min.js?v=19.0.1"></script>
+  <script defer src="vendor/jspdf.plugin.autotable.min.js?v=19.0.1"></script>
+
+  <script defer src="app_v19.js?v=19.0.1"></script>
+</head>
+<body>
+  <header class="header">
+    <div class="brand">
+      <div class="logo">PO</div>
+      <div>
+        <h1>PO-App v19 - Validador MinEduc Ecuador</h1>
+        <p>Validación de Plantilla Óptima según Norma Técnica 06-2025<br>
+        Matriz DTD (Distributivo de Trabajo Docente)</p>
+      </div>
+    </div>
+    <div class="pill">
+      <span class="dot"></span>
+      <span id="envLabel">Sistema Oficial · v19.0.1</span>
+    </div>
+  </header>
+
+  <main class="grid">
+    <section class="card">
+      <h2>📋 Validación de Matriz DTD</h2>
+      <p class="muted">
+        Sube tu archivo de Matriz DTD (.xlsm o .xlsx) para validar que cumple con la Norma Técnica de Plantilla Óptima.
+        El sistema verificará automáticamente cada paso de la metodología oficial del Ministerio de Educación.
+      </p>
+
+      <div class="row" id="uploadSection">
+        <input class="file" type="file" id="fileInput" accept=".xlsx,.xlsm">
+        <button class="btn" id="btnValidate">Validar Matriz DTD</button>
+        <button class="btn ghost" id="btnDiag" type="button">Diagnóstico</button>
+      </div>
+
+      <div class="small muted" id="excelHint">Selecciona tu archivo Matriz DTD para comenzar la validación.</div>
+
+      <!-- Resumen de validación -->
+      <div id="validationSummary" class="card inner"></div>
+
+      <!-- Tabla de inconsistencias -->
+      <div id="issuesTable" class="card inner"></div>
+
+      <!-- Pasos del flujo de trabajo -->
+      <div id="workflowSteps" class="card inner"></div>
+
+      <hr class="sep" />
+
+      <!-- Opciones de descarga de reporte -->
+      <h3>💾 Descargar Reporte de Validación</h3>
+      <p class="muted">Una vez validado el archivo, descarga el reporte en el formato que prefieras.</p>
+      
+      <div class="row">
+        <button class="btn ghost" id="btnDownloadPdf" disabled>📄 Descargar PDF</button>
+        <button class="btn ghost" id="btnDownloadJson" disabled>📊 Descargar JSON</button>
+      </div>
+
+      <hr class="sep" />
+
+      <!-- Información de la metodología -->
+      <h3>📖 Acerca de la Validación</h3>
+      <p class="muted">
+        Este validador verifica el cumplimiento de la <strong>Norma Técnica de Plantilla Óptima 06-2025</strong> del Ministerio de Educación de Ecuador.
+        Las validaciones incluyen:
+      </p>
+      
+      <div class="card inner">
+        <h4>✅ Validaciones implementadas:</h4>
+        <ul style="margin-left: 20px; line-height: 1.8;">
+          <li><strong>Paso 1-2:</strong> Código AMIE válido y seleccionado</li>
+          <li><strong>Paso 3:</strong> Nómina docente cargada correctamente</li>
+          <li><strong>Paso 4:</strong> Función en la IE (FUNxIE) asignada</li>
+          <li><strong>Paso 5:</strong> Estado "Esta en la IE" completado</li>
+          <li><strong>Paso 8-9:</strong> Información de la IE y paralelos en Par_PO</li>
+          <li><strong>Paso 11:</strong> Distributivo de trabajo con carga horaria válida</li>
+          <li><strong>Coherencia:</strong> AMIE consistente entre todas las hojas</li>
+          <li><strong>LOEI Reformada:</strong> Máximo 25 períodos pedagógicos semanales</li>
+        </ul>
+      </div>
+
+      <div class="card inner">
+        <h4>📂 Hojas requeridas en la Matriz DTD:</h4>
+        <ul style="margin-left: 20px; line-height: 1.8;">
+          <li><strong>Pasos:</strong> Flujo de trabajo de la metodología</li>
+          <li><strong>Nómina:</strong> Personal docente, directivo y administrativo</li>
+          <li><strong>Par_PO:</strong> Información de estudiantes y paralelos</li>
+          <li><strong>DIS_TRA:</strong> Distributivo de trabajo docente</li>
+          <li><strong>Param:</strong> Parámetros del sistema (opcional)</li>
+          <li><strong>PlanEstudio:</strong> Plan de estudios (opcional)</li>
+        </ul>
+      </div>
+
+      <div class="note">
+        <strong>💡 Tip:</strong> Si encuentras errores, revisa el reporte detallado y corrige según el paso indicado.
+        Cada inconsistencia está vinculada al paso específico de la metodología oficial.
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <span>PO-App v19 · Ministerio de Educación del Ecuador</span>
+    <span class="muted">Norma Técnica de Plantilla Óptima 06-2025</span>
+    <span class="muted">Modo institucional (sin CDN) · Validador oficial</span>
+  </footer>
+</body>
+</html>
