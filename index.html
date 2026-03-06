@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>PO-App v21 | Revisión individual y masiva DTD</title>
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+  <meta http-equiv="Pragma" content="no-cache" />
+  <meta http-equiv="Expires" content="0" />
+  <link rel="stylesheet" href="styles.css?v=21.0.0" />
+  <script defer src="vendor/xlsx.full.min.js"></script>
+  <script defer src="vendor/jspdf.umd.min.js"></script>
+  <script defer src="vendor/jspdf.plugin.autotable.min.js"></script>
+  <script defer src="app_v21.js"></script>
+</head>
+<body>
+  <header class="header">
+    <div class="brand">
+      <div class="logo">PO</div>
+      <div>
+        <h1>PO-App v21 - Revisión directa de matrices DTD</h1>
+        <p>Valida uno o varios archivos tipo <strong>AMIE-UE-Matriz_DTD</strong> sin depender del maestro de Zona 7.</p>
+      </div>
+    </div>
+    <div class="pill"><span class="dot"></span><span>Primera parte del flujo · v21.0.0</span></div>
+  </header>
+
+  <main class="grid">
+    <section class="card">
+      <h2>1. Carga de archivos</h2>
+      <p class="muted">Sube uno o varios archivos <strong>.xlsx</strong> o <strong>.xlsm</strong> como <span class="code">07H00774-AMELIA-Matriz_DTD2026_2027.xlsm</span>. El sistema revisará las hojas <strong>Pasos</strong>, <strong>Nómina</strong>, <strong>Par_PO</strong>, <strong>DIS_TRA</strong>, <strong>PlanEstudio</strong>, <strong>BT</strong> y <strong>EBJA TEC</strong>.</p>
+      <div class="stack gap16">
+        <div>
+          <label class="field-label" for="matricesInput">Matrices DTD institucionales</label>
+          <input class="file" type="file" id="matricesInput" accept=".xlsx,.xlsm" multiple />
+          <div class="small muted">Puedes subir varios archivos a la vez. Se identificará el AMIE desde el nombre de archivo, Nómina!B5 y Par_PO!B3.</div>
+        </div>
+      </div>
+      <div class="row mt16">
+        <button class="btn" id="btnValidate">Validar archivos</button>
+        <button class="btn ghost" id="btnDownloadXlsx" disabled>Descargar reporte XLSX</button>
+        <button class="btn ghost" id="btnDownloadJson" disabled>Descargar reporte JSON</button>
+        <button class="btn ghost" id="btnDownloadPdf" disabled>Descargar resumen PDF</button>
+      </div>
+    </section>
+
+    <section class="card inner" id="summaryCards">
+      <h2>2. Resumen</h2>
+      <div class="muted">Carga las matrices y ejecuta la validación.</div>
+    </section>
+
+    <section class="card inner">
+      <h2>3. Resultado por archivo</h2>
+      <div class="table-wrap" id="resultsTableWrap"><div class="muted">Sin resultados todavía.</div></div>
+    </section>
+
+    <section class="card inner">
+      <h2>4. Detalle de novedades</h2>
+      <div class="table-wrap" id="issuesTableWrap"><div class="muted">Aquí aparecerán los errores, alertas e informativos detectados.</div></div>
+    </section>
+
+    <section class="card">
+      <h2>Reglas implementadas en esta versión</h2>
+      <div class="rule-grid">
+        <div class="rule-item"><strong>Pasos</strong><span>Verifica presencia de la hoja, encabezados y tabla base de indicaciones.</span></div>
+        <div class="rule-item"><strong>Nómina</strong><span>Revisa AMIE, nombre institucional, necesidad en E11 y E12, y filas activas de personal.</span></div>
+        <div class="rule-item"><strong>Par_PO</strong><span>Comprueba datos de cabecera, plan de estudio/carga horaria y filas activas desde A23.</span></div>
+        <div class="rule-item"><strong>DIS_TRA</strong><span>Revisa integridad mínima de la hoja y etiquetas de tronco común / plan estudios.</span></div>
+        <div class="rule-item"><strong>PlanEstudio / BT / EBJA TEC</strong><span>Confirma existencia y presencia de contenido mínimo para la revisión documental.</span></div>
+      </div>
+    </section>
+  </main>
+</body>
+</html>
